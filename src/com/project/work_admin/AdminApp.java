@@ -55,10 +55,39 @@ public class AdminApp {
 								} else if (workmenu == 2) {
 									System.out.println("===============================");
 									System.out.println(" 수정을 원하는 직원의 사번을 입력해주세요.");
-									int num = sc.nextInt();
-									
-									
-									
+									System.out.print(">입력 : ");
+									int employeeID = sc.nextInt();
+
+									System.out.println("================================");
+									System.out.println("<" + employeeID + ">의 정보를 불러옵니다.");
+									adminDao.workSelectList(employeeID);
+
+									System.out.println("================================");
+									System.out.println("원하는 숫자를 입력하세요.");
+									System.out.println("1.출근 ");
+									System.out.println("2.지각 ");
+									System.out.println("3.조퇴 ");
+									System.out.println("4.퇴근 ");
+									System.out.println("5.휴가 ");
+									System.out.println("6.이전으로");
+									System.out.print(">입력 : ");
+									int workNum = sc.nextInt();
+									if (workNum == 1) {
+										adminDao.updateWorkStart(workNum);
+									} else if (workNum == 2) {
+										adminDao.updateWorkLate(workNum);
+									} else if (workNum == 3) {
+										adminDao.updateWorkEarly(workNum);
+									} else if (workNum == 4) {
+										adminDao.updateWorkLeave(workNum);
+									} else if (workNum == 5) {
+										adminDao.updateWorkVacation(workNum);
+									} else if (workNum == 6) {
+										break;
+									} else {
+										System.out.println("잘못된 입력입니다. 다시 시도해주세요.");
+									}
+
 								} else if (workmenu == 3) {
 									break;// 이전으로 만들어야 됨
 								}

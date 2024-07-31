@@ -176,7 +176,7 @@ public class AdminDao {
 			query += " from employees e, department d, workdate w ";
 			query += " where e.employee_id = d.department_id ";
 			query += " and w.employee_id = e.employee_id ";
-			query += " and employee_id like ? ";
+			query += " and e.employee_id like ? ";
 
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, num);
@@ -220,12 +220,270 @@ public class AdminDao {
 
 			for (WorkVo Vo : workSelectList) {
 				System.out.println("이름 : " + Vo.getEmpName());
-				System.out.println("출근시간 : " + Vo.getStartDateAndtime() + "\t");
-				System.out.println("퇴근시간 : " + Vo.getEndDateAndtime() + "\t");
-				System.out.println("출근상태 : " + Vo.getWorkStartStauts() + "\t");
-				System.out.println("퇴근상태 : " + Vo.getWorkEndStauts() + "\t");
+				System.out.println("출근시간 : " + Vo.getStartDateAndtime() + "\t" + Vo.getWorkStartStauts());
+				System.out.println("퇴근시간 : " + Vo.getEndDateAndtime() + "\t" + Vo.getWorkEndStauts());
+
 			}
 		}
+	}
+
+	public int updateWorkStart(int num) {
+		int count = -1;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			// 1. JDBC 드라이버 (Oracle) 로딩
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			// 2. Connection 얻어오기
+			String url = "jdbc:mysql://localhost:3306/work_db";
+			conn = DriverManager.getConnection(url, "admin", "admin");
+			// 3. SQL문 준비 / 바인딩 / 실행
+
+			String query = "";
+			query += " update workdate ";
+			query += " set work_start_status = '출근' ";
+			query += " where employee_id = ? ";
+
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, num);
+
+			count = pstmt.executeUpdate();
+			System.out.println(count + "건 수정 되었습니다.");
+
+			// 4.결과처리
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("error: 드라이버 로딩 실패 - " + e);
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+
+			// 5. 자원정리
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("error:" + e);
+			}
+		}
+		return count;
+
+	}
+
+	public int updateWorkLate(int num) {
+		int count = -1;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			// 1. JDBC 드라이버 (Oracle) 로딩
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			// 2. Connection 얻어오기
+			String url = "jdbc:mysql://localhost:3306/work_db";
+			conn = DriverManager.getConnection(url, "admin", "admin");
+			// 3. SQL문 준비 / 바인딩 / 실행
+
+			String query = "";
+			query += " update workdate ";
+			query += " set work_start_status = '지각' ";
+			query += " where employee_id = ? ";
+
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, num);
+
+			count = pstmt.executeUpdate();
+			System.out.println(count + "건 수정 되었습니다.");
+
+			// 4.결과처리
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("error: 드라이버 로딩 실패 - " + e);
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+
+			// 5. 자원정리
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("error:" + e);
+			}
+		}
+		return count;
+
+	}
+
+	public int updateWorkEarly(int num) {
+		int count = -1;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			// 1. JDBC 드라이버 (Oracle) 로딩
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			// 2. Connection 얻어오기
+			String url = "jdbc:mysql://localhost:3306/work_db";
+			conn = DriverManager.getConnection(url, "admin", "admin");
+			// 3. SQL문 준비 / 바인딩 / 실행
+
+			String query = "";
+			query += " update workdate ";
+			query += " set work_start_status = '조퇴' ";
+			query += " where employee_id = ? ";
+
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, num);
+
+			count = pstmt.executeUpdate();
+			System.out.println(count + "건 수정 되었습니다.");
+
+			// 4.결과처리
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("error: 드라이버 로딩 실패 - " + e);
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+
+			// 5. 자원정리
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("error:" + e);
+			}
+		}
+		return count;
+
+	}
+
+	public int updateWorkLeave(int num) {
+		int count = -1;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			// 1. JDBC 드라이버 (Oracle) 로딩
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			// 2. Connection 얻어오기
+			String url = "jdbc:mysql://localhost:3306/work_db";
+			conn = DriverManager.getConnection(url, "admin", "admin");
+			// 3. SQL문 준비 / 바인딩 / 실행
+
+			String query = "";
+			query += " update workdate ";
+			query += " set work_start_status = '퇴근' ";
+			query += " where employee_id = ? ";
+
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, num);
+
+			count = pstmt.executeUpdate();
+			System.out.println(count + "건 수정 되었습니다.");
+
+			// 4.결과처리
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("error: 드라이버 로딩 실패 - " + e);
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+
+			// 5. 자원정리
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("error:" + e);
+			}
+		}
+		return count;
+
+	}
+	public int updateWorkVacation(int num) {
+		int count = -1;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			// 1. JDBC 드라이버 (Oracle) 로딩
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			// 2. Connection 얻어오기
+			String url = "jdbc:mysql://localhost:3306/work_db";
+			conn = DriverManager.getConnection(url, "admin", "admin");
+			// 3. SQL문 준비 / 바인딩 / 실행
+
+			String query = "";
+			query += " update workdate ";
+			query += " set work_start_status = '휴가' ";
+			query += " 	   ,work_end_status = '휴가' ";
+			query += " where employee_id = ? ";
+
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, num);
+
+			count = pstmt.executeUpdate();
+			System.out.println(count + "건 수정 되었습니다.");
+
+			// 4.결과처리
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("error: 드라이버 로딩 실패 - " + e);
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+
+			// 5. 자원정리
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("error:" + e);
+			}
+		}
+		return count;
 
 	}
 }
