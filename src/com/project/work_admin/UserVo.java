@@ -12,6 +12,8 @@ public class UserVo {
 	private String phoneNumber;
 	private String addRess;
 	private String hireDate;
+	private int mgId;
+
 
 	public UserVo() {
 
@@ -25,7 +27,7 @@ public class UserVo {
 
 
 	public UserVo(int employeeId, String empName, String loginID, String loginPW, String eMail, int departmentId,
-			String departmentName, String phoneNumber, String addRess, String hireDate) {
+			String departmentName, String phoneNumber, String addRess, String hireDate, int mgId) {
 	
 		this.employeeId = employeeId;
 		this.empName = empName;
@@ -37,6 +39,7 @@ public class UserVo {
 		this.phoneNumber = phoneNumber;
 		this.addRess = addRess;
 		this.hireDate = hireDate;
+		this.mgId = mgId;
 	}
 
 	public UserVo(int employeeId, String empName, String loginID, String loginPW, String eMail, int departmentId,
@@ -132,6 +135,14 @@ public class UserVo {
 	public final void setHireDate(String hireDate) {
 		this.hireDate = hireDate;
 	}
+	public final int getMgId() {
+		return mgId;
+	}
+
+	public final void setMgId(int mgId) {
+		this.mgId = mgId;
+	}
+
 
 	@Override
 	public String toString() {

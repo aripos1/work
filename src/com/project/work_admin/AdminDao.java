@@ -15,9 +15,9 @@ public class AdminDao {
 	private ResultSet rs = null;
 
 	private String driver = "com.mysql.cj.jdbc.Driver";
-	private String url = "jdbc:mysql://localhost:3306/work_db";
-	private String id = "admin";
-	private String pw = "admin";
+	private String url = "jdbc:mysql://192.168.0.75:3306/work_db";
+	private String id = "workadmin";
+	private String pw = "workadmin123";
 
 	public AdminDao() {
 
@@ -105,7 +105,7 @@ public class AdminDao {
 			query += "         ,d.department_name ";
 			query += "         ,e.emp_name ";
 			query += " from employees e, department d, workdate w ";
-			query += " where e.employee_id = d.department_id ";
+			query += " where e.department_id = d.department_id ";
 			query += " and w.employee_id = e.employee_id ";
 
 			pstmt = conn.prepareStatement(query);
@@ -132,13 +132,13 @@ public class AdminDao {
 		}
 
 		for (WorkVo Vo : workAllList) {
-			System.out.print(Vo.getEmployeeId() + "\t");
-			System.out.print(Vo.getStartDateAndtime() + "\t");
-			System.out.print(Vo.getEndDateAndtime() + "\t");
-			System.out.print(Vo.getWorkStartStauts() + "\t");
-			System.out.print(Vo.getWorkEndStauts() + "\t");
-			System.out.print(Vo.getDepartmentName() + "\t");
-			System.out.println(Vo.getEmpName());
+			System.out.print("사번 :" + Vo.getEmployeeId() + "\t");
+			System.out.print("출근시간 :" + Vo.getStartDateAndtime() + "\t");
+			System.out.print("퇴근시간:" + Vo.getEndDateAndtime() + "\t");
+			System.out.print("출근상태 :" + Vo.getWorkStartStauts() + "\t");
+			System.out.print("퇴근상태 :" + Vo.getWorkEndStauts() + "\t");
+			System.out.print("부서 :" + Vo.getDepartmentName() + "\t");
+			System.out.println("이름 :" + Vo.getEmpName());
 
 		}
 		this.close();
@@ -160,7 +160,7 @@ public class AdminDao {
 			query += "         ,d.department_name ";
 			query += "         ,e.emp_name ";
 			query += " from employees e, department d, workdate w ";
-			query += " where e.employee_id = d.department_id ";
+			query += " where e.department_id = d.department_id ";
 			query += " and w.employee_id = e.employee_id ";
 			query += " and e.employee_id like ? ";
 
@@ -344,9 +344,11 @@ public class AdminDao {
 			query += "          d.department_name, ";
 			query += "          e.phone_number, ";
 			query += "          e.address, ";
-			query += "          e.hire_date ";
+			query += "          e.hire_date, ";
+			query += "          d.manager_id ";
 			query += " from employees e, department d ";
 			query += " where e.department_id = d.department_id ";
+			query += " order by e.employee_id ";
 
 			// *바인딩
 			pstmt = conn.prepareStatement(query);
@@ -367,8 +369,9 @@ public class AdminDao {
 				String num = rs.getString("e.phone_number");
 				String add = rs.getString("e.address");
 				String HD = rs.getString("e.hire_date");
+				int mgId = rs.getInt("d.manager_id");
 
-				UserVo userVo = new UserVo(eId, name, ID, PW, EM, deID,dName, num, add, HD);
+				UserVo userVo = new UserVo(eId, name, ID, PW, EM, deID, dName, num, add, HD, mgId);
 				UserList.add(userVo);
 			}
 
@@ -511,9 +514,11 @@ public class AdminDao {
 			query += "          d.department_name, ";
 			query += "          e.phone_number, ";
 			query += "          e.address, ";
-			query += "          e.hire_date ";
-			query += " from employees e inner join department d";
-			query += " where d.department_id = ? ";
+			query += "          e.hire_date, ";
+			query += "          d.manager_id ";
+			query += " from employees e, department d ";
+			query += " where e.department_id =d.department_id ";
+			query += " and d.department_id = ? ";
 			// *바인딩
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, departmentId);
@@ -533,8 +538,9 @@ public class AdminDao {
 				String num = rs.getString("phone_number");
 				String add = rs.getString("address");
 				String HD = rs.getString("hire_date");
+				int mgId = rs.getInt("manager_id");
 
-				UserVo userVo = new UserVo(eId, name, ID, PW, EM, deID,dName, num, add, HD);
+				UserVo userVo = new UserVo(eId, name, ID, PW, EM, deID, dName, num, add, HD, mgId);
 				UserList.add(userVo);
 			}
 
@@ -565,7 +571,8 @@ public class AdminDao {
 			query += "          d.department_name, ";
 			query += "          e.phone_number, ";
 			query += "          e.address, ";
-			query += "          e.hire_date ";
+			query += "          e.hire_date, ";
+			query += "          d.manager_id ";
 			query += " from employees e, department d ";
 			query += " where e.department_id = d.department_id ";
 			query += " and emp_name like ?  ";
@@ -580,7 +587,7 @@ public class AdminDao {
 
 			// 4.결과처리
 			// 리스트로 만들기
-			while(rs.next()) {
+			while (rs.next()) {
 				int employeeId = rs.getInt("employee_id");
 				String empName = rs.getString("emp_name");
 				String loginID = rs.getString("login_ID");
@@ -591,12 +598,12 @@ public class AdminDao {
 				String phoneNumber = rs.getString("phone_number");
 				String addRess = rs.getString("address");
 				String hireDate = rs.getString("hire_date");
+				int mgId = rs.getInt("manager_id");
 
-				UserVo vo = new UserVo(employeeId, empName, loginID, loginPW, eMail, departmentId, departmentName, phoneNumber,
-						addRess, hireDate);
+				UserVo vo = new UserVo(employeeId, empName, loginID, loginPW, eMail, departmentId, departmentName,
+						phoneNumber, addRess, hireDate, mgId);
 				userVo.add(vo);
-			
-			
+
 			}
 		} catch (SQLException e) {
 			System.out.println("error:" + e);

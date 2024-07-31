@@ -187,7 +187,9 @@ public class AdminApp {
 											System.out.print("부서번호 :" + vo.getDepartmentId() + "\t");
 											System.out.print("부서명 :" + vo.getDepartmentName() + "\t");
 											System.out.print("사번 :" + vo.getEmployeeId() + "\t");
-											System.out.println("이름 :" + vo.getEmpName() + "\t");
+											System.out.print("이름 :" + vo.getEmpName() + "\t");
+											System.out.println("매니저ID :" + vo.getMgId() + "\t");
+											
 										}
 
 									} else if (searchOption == 2) {
@@ -199,7 +201,8 @@ public class AdminApp {
 											System.out.print("사번 :" + vo.getEmployeeId() + "\t");
 											System.out.print("이름 :" + vo.getEmpName() + "\t");
 											System.out.print("부서번호 :" + vo.getDepartmentId() + "\t");
-											System.out.println("부서명 :" + vo.getDepartmentName() + "\t");
+											System.out.print("부서명 :" + vo.getDepartmentName() + "\t");
+											System.out.println("매니저ID :" + vo.getMgId() + "\t");
 										}
 
 									} else if (searchOption == 3) {
