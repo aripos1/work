@@ -8,6 +8,7 @@ public class UserVo {
 	private String loginPW;
 	private String eMail;
 	private int departmentId;
+	private String departmentName;
 	private String phoneNumber;
 	private String addRess;
 	private String hireDate;
@@ -16,8 +17,6 @@ public class UserVo {
 
 	}
 
-	
-	
 	public UserVo(String loginID, String loginPW) {
 		super();
 		this.loginID = loginID;
@@ -25,6 +24,20 @@ public class UserVo {
 	}
 
 
+	public UserVo(int employeeId, String empName, String loginID, String loginPW, String eMail, int departmentId,
+			String departmentName, String phoneNumber, String addRess, String hireDate) {
+	
+		this.employeeId = employeeId;
+		this.empName = empName;
+		this.loginID = loginID;
+		this.loginPW = loginPW;
+		this.eMail = eMail;
+		this.departmentId = departmentId;
+		this.departmentName = departmentName;
+		this.phoneNumber = phoneNumber;
+		this.addRess = addRess;
+		this.hireDate = hireDate;
+	}
 
 	public UserVo(int employeeId, String empName, String loginID, String loginPW, String eMail, int departmentId,
 			String phoneNumber, String addRess, String hireDate) {
@@ -38,6 +51,14 @@ public class UserVo {
 		this.phoneNumber = phoneNumber;
 		this.addRess = addRess;
 		this.hireDate = hireDate;
+	}
+
+	public final String getDepartmentName() {
+		return departmentName;
+	}
+
+	public final void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
 	}
 
 	public final int getEmployeeId() {

@@ -1,5 +1,6 @@
 package com.project.work_admin;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class AdminApp {
@@ -29,7 +30,7 @@ public class AdminApp {
 				login = adminDao.loginProcess(id, pw);
 
 				if (login) {
-					
+
 					while (true) {
 						System.out.println("──────────────────────────────");
 						System.out.println("관리자님 어서오세요!");
@@ -39,7 +40,7 @@ public class AdminApp {
 						System.out.println("──────────────────────────────");
 						System.out.print("> 입력 : ");
 						int submenu = sc.nextInt();
-						sc.nextLine(); 
+						sc.nextLine();
 
 						if (submenu == 1) {
 							while (true) {
@@ -94,8 +95,121 @@ public class AdminApp {
 							}
 
 						} else if (submenu == 2) {
-							System.out.println("부서/직원 정보 선택됨.");
-							// 부서/직원 정보 관련 로직
+
+							while (true) {
+
+								System.out.println("──────────────────────────────");
+								System.out.println("<<부서/직원 정보>>");
+								System.out.println("1. 전직원 리스트 보기");
+								System.out.println("2. 부서명 수정");
+								System.out.println("3. 부서 추가");
+								System.out.println("4. 부서 삭제");
+								System.out.println("5. 검색");
+								System.out.println("6. 이전으로");
+								System.out.println("──────────────────────────────");
+								System.out.print(">입력 : ");
+								int menuNo = sc.nextInt();
+								sc.nextLine(); // 개행 문자 소비
+
+								if (menuNo == 1) {
+
+									List<UserVo> userList = adminDao.selectEmployeesAll();
+
+									for (UserVo user : userList) {
+										System.out.print("사번 :" + user.getEmployeeId() + "\t");
+										System.out.print("이름 :" + user.getEmpName() + "\t");
+										System.out.print("부서명 :" + user.getDepartmentName() + "\t");
+										System.out.print("ID :" + user.getLoginID() + "\t");
+										System.out.print("PW:" + user.getLoginPW() + "\t");
+										System.out.print("입사일 :" + user.getHireDate() + "\t");
+										System.out.print("HP :" + user.getPhoneNumber() + "\t");
+										System.out.print("주소 :" + user.getAddRess() + "\t");
+										System.out.println("이메일 :" + user.geteMail());
+
+									}
+
+								} else if (menuNo == 2) {
+									System.out.println("──────────────────────────────");
+									System.out.println("* 현 부서명을 입력해주세요");
+									System.out.print("> 입력: ");
+									String currentDept = sc.nextLine();
+
+									System.out.println("* 바뀔 부서명을 입력해주세요");
+									System.out.print("> 입력: ");
+									String newDept = sc.nextLine();
+
+									System.out.println("* 현 매니저 번호를 입력하세요 ");
+									System.out.print("> 입력: ");
+									int mgNum = sc.nextInt();
+
+									System.out.println("* 바뀔 매니저 번호를 입력하세요 ");
+									System.out.print(">입력: ");
+									int nMgnum = sc.nextInt();
+
+									adminDao.updateDepartment(currentDept, mgNum, newDept, nMgnum);
+
+								} else if (menuNo == 3) {
+									System.out.println("──────────────────────────────");
+									System.out.println("* 추가할 부서명을 입력하세요: ");
+									System.out.print("> 입력: ");
+									String deNum = sc.nextLine();
+									System.out.println("* 추가할 매니저 번호를 입력하세요: ");
+									System.out.print("> 입력: ");
+									int manage = sc.nextInt();
+									sc.nextLine(); // 개행 문자 소비
+									adminDao.insertDepartment(deNum, manage);
+
+								} else if (menuNo == 4) {
+									System.out.println("──────────────────────────────");
+									System.out.println("* 삭제할 부서번호를 입력하세요: ");
+									System.out.print("> 입력: ");
+									int deptToDelete = sc.nextInt();
+									sc.nextLine(); // 개행 문자 소비
+									adminDao.deleteDepartment(deptToDelete);
+
+								} else if (menuNo == 5) {
+									System.out.println("──────────────────────────────");
+									System.out.println("원하는 검색 방식을 선택해 주세요");
+									System.out.println("1. 부서번호로 검색");
+									System.out.println("2. 직원명으로 검색");
+									System.out.println("3. 이전으로");
+									System.out.println("──────────────────────────────");
+									System.out.print("> 입력: ");
+									int searchOption = sc.nextInt();
+									sc.nextLine();
+
+									if (searchOption == 1) {
+										System.out.println("──────────────────────────────");
+										System.out.println("부서번호을 입력하세요: ");
+										System.out.print("> 입력: ");
+										int department = sc.nextInt();
+										for (UserVo vo : adminDao.selectdepartment(department)) {
+											System.out.print("부서번호 :" + vo.getDepartmentId() + "\t");
+											System.out.print("부서명 :" + vo.getDepartmentName() + "\t");
+											System.out.print("사번 :" + vo.getEmployeeId() + "\t");
+											System.out.println("이름 :" + vo.getEmpName() + "\t");
+										}
+
+									} else if (searchOption == 2) {
+										System.out.println("──────────────────────────────");
+										System.out.println("직원명을 입력하세요: ");
+										System.out.print("> 입력: ");
+										String answer = sc.nextLine();
+										for (UserVo vo : adminDao.selectUser(answer)) {
+											System.out.print("사번 :" + vo.getEmployeeId() + "\t");
+											System.out.print("이름 :" + vo.getEmpName() + "\t");
+											System.out.print("부서번호 :" + vo.getDepartmentId() + "\t");
+											System.out.println("부서명 :" + vo.getDepartmentName() + "\t");
+										}
+
+									} else if (searchOption == 3) {
+										continue;
+									}
+
+								} else if (menuNo == 6) {
+									break;
+								}
+							}
 						} else if (submenu == 3) {
 							System.out.println("(￣ー￣)ﾉ 종료 되었습니다.");
 							System.exit(0);
