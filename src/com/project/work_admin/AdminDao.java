@@ -132,13 +132,11 @@ public class AdminDao {
 		}
 
 		for (WorkVo Vo : workAllList) {
-			System.out.print("사번 :" + Vo.getEmployeeId() + "\t");
-			System.out.print("출근시간 :" + Vo.getStartDateAndtime() + "\t");
-			System.out.print("퇴근시간:" + Vo.getEndDateAndtime() + "\t");
-			System.out.print("출근상태 :" + Vo.getWorkStartStauts() + "\t");
-			System.out.print("퇴근상태 :" + Vo.getWorkEndStauts() + "\t");
-			System.out.print("부서 :" + Vo.getDepartmentName() + "\t");
-			System.out.println("이름 :" + Vo.getEmpName());
+			System.out.print(" 사번 :" + Vo.getEmployeeId() + "\t");
+			System.out.print(" 출근시간 :" + Vo.getStartDateAndtime() + " " + Vo.getWorkStartStauts() + "\t");
+			System.out.print(" 퇴근시간:" + Vo.getEndDateAndtime() + " " + Vo.getWorkEndStauts() + "\t");
+			System.out.print(" 부서 :" + Vo.getDepartmentName() + "\t");
+			System.out.println(" 이름 :" + Vo.getEmpName());
 
 		}
 		this.close();
@@ -188,9 +186,9 @@ public class AdminDao {
 		}
 
 		for (WorkVo Vo : workSelectList) {
-			System.out.println("이름 : " + Vo.getEmpName());
-			System.out.println("출근시간 : " + Vo.getStartDateAndtime() + "\t" + Vo.getWorkStartStauts());
-			System.out.println("퇴근시간 : " + Vo.getEndDateAndtime() + "\t" + Vo.getWorkEndStauts());
+			System.out.println("  이름 : " + Vo.getEmpName());
+			System.out.println("  출근시간 : " + Vo.getStartDateAndtime() + "\t" + Vo.getWorkStartStauts());
+			System.out.println("  퇴근시간 : " + Vo.getEndDateAndtime() + "\t" + Vo.getWorkEndStauts());
 
 		}
 		this.close();
@@ -211,7 +209,7 @@ public class AdminDao {
 			pstmt.setInt(1, num);
 
 			count = pstmt.executeUpdate();
-			System.out.println(count + "건 수정 되었습니다.");
+			System.out.println(" [" + count + "] 건이 수정 되었습니다.");
 
 			// 4.결과처리
 
@@ -236,7 +234,7 @@ public class AdminDao {
 			pstmt.setInt(1, num);
 
 			count = pstmt.executeUpdate();
-			System.out.println(count + "건 수정 되었습니다.");
+			System.out.println(" [" + count + "] 건이 수정 되었습니다.");
 
 			// 4.결과처리
 
@@ -262,7 +260,7 @@ public class AdminDao {
 			pstmt.setInt(1, num);
 
 			count = pstmt.executeUpdate();
-			System.out.println(count + "건 수정 되었습니다.");
+			System.out.println(" [" + count + "] 건이 수정 되었습니다.");
 
 			// 4.결과처리
 
@@ -288,7 +286,7 @@ public class AdminDao {
 			pstmt.setInt(1, num);
 
 			count = pstmt.executeUpdate();
-			System.out.println(count + "건 수정 되었습니다.");
+			System.out.println(" [" + count + "] 건이 수정 되었습니다.");
 
 			// 4.결과처리
 
@@ -314,7 +312,7 @@ public class AdminDao {
 			pstmt.setInt(1, num);
 
 			count = pstmt.executeUpdate();
-			System.out.println(count + "건 수정 되었습니다.");
+			System.out.println(" [" + count + "] 건이 수정 되었습니다.");
 
 			// 4.결과처리
 
@@ -413,7 +411,7 @@ public class AdminDao {
 			count = pstmt.executeUpdate();
 
 			// 4.결과처리
-			System.out.println(count + "건 수정되었습니다.");
+			System.out.println(" [" + count + "] 건이 수정 되었습니다.");
 
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
@@ -449,7 +447,7 @@ public class AdminDao {
 			count = pstmt.executeUpdate();
 
 			// 4.결과처리
-			System.out.println(count + "건 등록되었습니다.");
+			System.out.println(" [" + count + "] 건이 등록 되었습니다.");
 
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
@@ -482,7 +480,7 @@ public class AdminDao {
 			count = pstmt.executeUpdate();
 
 			// 4.결과처리
-			System.out.println(count + "건 삭제되었습니다.");
+			System.out.println(" [" + count + "] 건이 삭제 되었습니다.");
 
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
@@ -516,12 +514,13 @@ public class AdminDao {
 			query += "          e.address, ";
 			query += "          e.hire_date, ";
 			query += "          d.manager_id ";
-			query += " from employees e, department d ";
-			query += " where e.department_id =d.department_id ";
-			query += " and d.department_id = ? ";
+			query += " from department d ";
+			query += " Left JOIN employees e ON e.department_id = d.department_id ";
+			query += " where (d.department_id = ? OR ? IS NULL)  ";
 			// *바인딩
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, departmentId);
+			pstmt.setInt(2, departmentId);
 			// *실행
 			rs = pstmt.executeQuery();
 
@@ -613,4 +612,49 @@ public class AdminDao {
 
 		return userVo;
 	}
+
+	public List<DepartmentVo> departmentList() {
+		List<DepartmentVo> dList = new ArrayList<DepartmentVo>();
+
+		this.getConnection();
+
+		try {
+
+			// 3. SQL문 준비 / 바인딩 / 실행
+			// *sql문 준비
+
+			String query = "";
+			query += " select department_id, ";
+			query += "  	  department_name, ";
+			query += "        manager_id ";
+			query += " from department  ";
+
+			// *바인딩
+			pstmt = conn.prepareStatement(query);
+
+			// *실행
+			rs = pstmt.executeQuery();
+
+			// 4.결과처리
+			// 리스트로 만들기
+			while (rs.next()) {
+
+				int deID = rs.getInt("department_id");
+				String dName = rs.getString("department_name");
+
+				int mgId = rs.getInt("manager_id");
+
+				DepartmentVo dVo = new DepartmentVo(deID, dName, mgId);
+				dList.add(dVo);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		this.close();
+
+		return dList;
+	}
+
 }
