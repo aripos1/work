@@ -118,11 +118,11 @@ public class AdminApp {
 								System.out.println();
 								System.out.println("  1. 전직원 리스트 ");
 								System.out.println("  2. 부서 리스트 ");
-								System.out.println("  3. 부서명 수정");
-								System.out.println("  4. 부서 추가");
-								System.out.println("  5. 부서 삭제");
-								System.out.println("  6. 검색");
-								System.out.println("  7. 이전으로");
+								System.out.println("  3. 부서명 수정 ");
+								System.out.println("  4. 부서 추가 ");
+								System.out.println("  5. 부서 삭제 ");
+								System.out.println("  6. 검색 ");
+								System.out.println("  7. 이전으로 ");
 								System.out.println();
 								System.out.println("└──────────────────────────────┘");
 								System.out.print("▶입력 : ");
